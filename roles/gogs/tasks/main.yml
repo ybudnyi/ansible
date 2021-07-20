@@ -1,0 +1,65 @@
+---
+# tasks file for gogs
+- name: Install MariaDB-Galera-server
+  yum:
+    name: mariadb-server
+    update_cache: yes
+    state: present
+- name: Install git
+  yum:
+    name: git
+    state: present
+- name: Install gcc for app compiling
+  yum:
+    name: gcc
+    state: present
+- name: Install openssh server
+  yum:
+    name: openssh-server
+    state: present
+- name: Install wget
+  yum:
+    name: wget
+    state: present
+- name: Create DB for gogs app compile
+  community.mysql.mysql_db:
+    name: "gogs"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_general_ci"
+    state: present
+- name: Downaload Go 
+  get_url:
+    url: "https://golang.org/dl/go1.16.6.linux-amd64.tar.gz"
+    dest: "/root/go.tar.gz"
+    mode: "0664"
+#- name: Unzip Go 
+#  shell: "tar -C /usr/local -xzf /root/go.tar.gz"
+#    src: "/root/go.tar.gz"
+#    dest: "/usr/local"
+#    mode: "0755"
+#    remote_src: yes
+#  environment:
+#   PATH: "$PATH:/usr/local/go/bin"
+#- name: Check Go installation
+#  shell:
+#    cmd: "go version"
+#  register: go_version
+#- name: Show version
+#  debug:
+#    var: go_version
+- name: Add user git
+  user:
+    name: "git"
+    comment: "Gogs"
+- name: Clone git repository
+  git:
+    repo: "https://github.com/gogs/gogs.git"
+    dest: "/root/gogs"
+    depth: 1
+#- name: Start to build app
+#  command: chdir=/root/gogs "go build -o gogs"
+- name: Add config file for gogs
+  template:
+    src=app.ini.j2
+    dest=/root/gogs/custom/conf/app.ini
+    owner=root group=root mode=0644

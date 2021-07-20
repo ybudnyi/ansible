@@ -1,0 +1,10 @@
+---
+- name: gathering facts
+  hosts: all
+  gather_facts: True
+- name: test haproxy
+  hosts: haproxy
+  become: true
+  gather_facts: True
+  roles:
+    - haproxy

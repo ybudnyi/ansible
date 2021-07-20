@@ -1,0 +1,22 @@
+---
+# tasks file for haproxy
+- name: install tools
+  yum:
+    name: epel-release
+    state: present
+- name: install the latest version of HaProxy
+  yum:
+    name: haproxy
+    state: present
+- name: Change config file
+  become: true
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+  notify: restart haproxy
+- name: Change hosts file
+  become: true
+  template:
+    src: hosts.j2
+    dest: /etc/hosts

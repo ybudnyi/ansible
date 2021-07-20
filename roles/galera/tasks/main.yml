@@ -1,0 +1,56 @@
+---
+# tasks file for galera
+- name: Install MariaDB-Galera-server, MariaDB-client, Galera
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+    - mariadb-server-galera
+    - mariadb-server
+    - galera
+- name: Instal tools for db configuration
+  yum:
+    name: python3-mysql
+    state: present
+- name: Add config file for galera cluster
+  template:
+    src=galera.cnf.j2
+    dest=/etc/my.cnf.d/galera.cnf
+    owner=root group=root mode=0644
+#  notify: Stop galera
+- name: Initialize new cluster
+  command: galera_new_cluster
+  when: inventory_hostname == "{{ main_host }}"
+- name: Add other nodes to galera cluster
+  systemd:
+    name: mariadb
+    state: restarted
+  when: inventory_hostname != "{{ main_host }}"
+- name: Create user git for app
+  community.mysql.mysql_user:
+    encrypted: no
+    name: "git"
+    host: "%"
+    password: "1111"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  become: true
+  no_log: true
+  run_once: true
+- name: Create user haproxy
+  community.mysql.mysql_user:
+    encrypted: no
+    name: "haproxy"
+    host: "10.26.0.232"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  become: true
+  no_log: true
+  run_once: true
+- name: Create db for gogs app
+  community.mysql.mysql_db:
+    name: "gogs"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_general_ci"
+    state: present

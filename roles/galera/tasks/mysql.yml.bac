@@ -1,0 +1,29 @@
+---
+- name: Create user git for app
+  mysql.user:
+    encrypted: no
+    name: git
+    host: 10.26.0.232
+    password: 1111
+    priv: '*.*:ALL,GRANT'
+    state: present
+  become: true
+  no_log: true
+  run_once: true
+- name: Create user haproxy
+  mysql.user:
+    encrypted: no
+    name: "haproxy"
+    host: "10.26.0.232"
+    password: "1111"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  become: true
+  no_log: true
+  run_once: true
+- name: Create db for gogs app
+  mysql_db:
+    name: "gogs"
+    encoding: "utf8mb4"
+    collation: "utf8mb4_general_ci"
+    state: present

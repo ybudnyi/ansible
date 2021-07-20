@@ -1,0 +1,29 @@
+---
+# tasks file for galera
+- name: Install MariaDB-Galera-server, MariaDB-client, Galera
+      yum:
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
+      with_items:
+        - MariaDB-Galera-server
+        - MariaDB-client
+        - galera
+- name: Instal tools for db configuration
+  yum:
+    name: python3-mysql
+    state: present
+- name: Add config file for galera cluster
+  template:
+    src=galera.cnf.j2
+    dest=/etc/my.cnf.d/galera.cnf
+    owner=root group=root mode=0644
+  notify: Stop galera
+- name: Initialize new cluster
+  command: galera_new_cluster
+  when: {{ hostvars[groups['galera']['inventory_hostname']] }} == main_host.name
+- name: Add other nodes to galera cluster
+  systemd:
+    name: mariadb
+    state: restarted
+  when: {{ hostvars[groups['galera']['inventory_hostname']] }} != main_host.name

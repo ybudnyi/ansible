@@ -1,0 +1,6 @@
+---
+# tasks file for selinux
+- name: Put SELinux in permissive mode
+      selinux:
+        policy: targeted
+        state: permissive

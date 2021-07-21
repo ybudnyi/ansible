@@ -49,7 +49,7 @@ defaults
     option                  httplog
     option                  dontlognull
     option http-server-close
-    option forwardfor       except 127.0.0.0/8
+#    option forwardfor       except 127.0.0.0/8
     option                  redispatch
     retries                 3
     timeout http-request    10s
@@ -81,7 +81,7 @@ frontend mydb_cluste_frontend
 #---------------------------------------------------------------------
 #
 #Load balancer for galera cluster
-#listen galera 10.26.0.167:3306
+
 backend gogs_cluster
     balance roundrobin
     mode tcp

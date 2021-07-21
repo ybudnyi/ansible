@@ -1,13 +1,6 @@
 ---
 # tasks file for haproxy
-- name: install tools
-  yum:
-    name: epel-release
-    state: present
-- name: install the latest version of HaProxy
-  yum:
-    name: haproxy
-    state: present
+- include: haproxypackages.yml
 - name: Change config file
   become: true
   template:

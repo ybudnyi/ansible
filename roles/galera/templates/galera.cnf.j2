@@ -43,7 +43,7 @@ wsrep_provider=/usr/lib64/galera/libgalera_smm.so
 wsrep_cluster_name="{{ galera_cluster }}"
 
 # Group communication system handle
-wsrep_cluster_address="gcomm://10.26.0.194,10.26.0.156,10.26.0.206"
+wsrep_cluster_address="gcomm://{{ galera_nodes | join(", ") }}"
 
 # Human-readable node name (non-unique). Hostname by default.
 #wsrep_node_name={{ inventory_hostname }}

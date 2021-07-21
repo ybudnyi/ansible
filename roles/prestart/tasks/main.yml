@@ -14,8 +14,8 @@
 - name: Disable after reboot
   selinux:
     state: disabled
-- name: Set SeLinux in permisive mode until next reboot
-  command: setenforce 0
-  ignore_errors: true
-  changed_when: false
+- name: Set SeLinux in permisive mode
+  selinux:
+    state: permissive
+
 

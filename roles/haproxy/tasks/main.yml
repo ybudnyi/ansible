@@ -1,6 +1,7 @@
 ---
 # tasks file for haproxy
 - include: haproxypackages.yml
+- include: haproxyfirewall.yml
 - name: Change config file
   become: true
   template:
@@ -13,3 +14,7 @@
   template:
     src: hosts.j2
     dest: /etc/hosts
+- name: Restart haproxy
+  systemd:
+    name: haproxy
+    state: restarted

@@ -4,13 +4,6 @@
     name: firewalld 
     state: started 
     enabled: yes
-
-- name: Open firewall for Mariadb
-  firewalld: 
-    service: mariadb
-    permanent: true
-    state: enabled
-
 - name: Open ports for DB connection
   firewalld:
     port: "{{ item }}"

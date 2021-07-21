@@ -5,14 +5,12 @@
     state: started 
     enabled: yes
 
-- name: Open firewall for Haproxy
-  firewalld: 
-    service: haproxy
-    permanent: true
-    state: enabled
-
 - name: Open ports for DB connection
   firewalld:
     port: 3306/tcp
     permanent: true
     state: enabled
+- name: Reload firewall config
+  systemd:
+    name: firewalld
+    state: reloaded

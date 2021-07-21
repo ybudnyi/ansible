@@ -11,7 +11,7 @@
     name: "{{ user }}"
     host: "%"
     password: "{{ passwd }}"
-    priv: '"{{ dbname }}".*:ALL,GRANT'
+    priv: '{{ dbname }}.*:ALL,GRANT'
     state: present
   become: true
   no_log: true

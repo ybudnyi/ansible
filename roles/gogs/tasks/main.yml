@@ -6,12 +6,17 @@
     state: stopped
     enabled: yes
 - include: gogspackages.yml
+- name: Start mariadb service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
 - include: gogsdb.yml
 - include: goinstall.yml
 - name: Add user git
   user:
-    name: "{{ User }}"
+    name: "{{ user }}"
     comment: "{{ comment }}"
-    home: /home/"{{ user }}"
+#    home: /home/"{{ user }}"
 - include: appinstall.yml
 

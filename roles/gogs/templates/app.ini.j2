@@ -1,13 +1,13 @@
 BRAND_NAME = Gogs
-RUN_USER   = "{{ user }}
+RUN_USER   = {{ user }}
 RUN_MODE   = prod
 
 [database]
-TYPE     = "{{ dbtype }}
-HOST     = "{{ dbconnect }}:3306
-NAME     = "{{ dbname }}
-USER     = "{{ user }}
-PASSWORD = "{{ passwd }}
+TYPE     = {{ dbtype }}
+HOST     = {{ dbconnect }}:3306
+NAME     = {{ dbname }}
+USER     = {{ user }}
+PASSWORD = {{ passwd }}
 SSL_MODE = disable
 PATH     = /home/git/gogs/data/gogs.db
 
@@ -17,7 +17,7 @@ ROOT = /home/git/gogs-repositories
 [server]
 DOMAIN           = localhost
 HTTP_PORT        = 3000
-EXTERNAL_URL     = http://"{{ ansible_default_ipv4.address }}":3000/
+EXTERNAL_URL     = http://{{ ansible_default_ipv4.address }}:3000/
 DISABLE_SSH      = false
 SSH_PORT         = 22
 START_SSH_SERVER = false

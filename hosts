@@ -1,8 +1,8 @@
 [haproxy]
-proxy ansible_host=10.26.0.232
+haproxy ansible_host=10.26.0.232
 [galera]
 mariadb1 ansible_host=10.26.0.194
 mariadb2 ansible_host=10.26.0.156
 mariadb3 ansible_host=10.26.0.206
 [app]
-gogs ansible_host=10.26.0.185
+gogs ansible_host=10.26.0.178

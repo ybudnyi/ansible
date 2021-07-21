@@ -19,13 +19,16 @@
     dest=/root/gogs/custom/conf/app.ini
     owner=root group=root mode=0644
 - name: Add service unit for systemd
-  file:
+  copy:
     src=gogs.service
-    dest=/etc/systemd/system/gogs.service
+    dest=/etc/systemd/system
     owner=root group=root mode=0644
+- name: Create directory for app
+  shell:
+    cmd: "mkdir /home/git/gogs"
 - name: Move gogs to git directory
   shell:
-    cmd: "mv gogs /home/git/"
+    cmd: "mv gogs /home/git"
   args:
     chdir: /root
 - name: Change owner of gogs directory for user git

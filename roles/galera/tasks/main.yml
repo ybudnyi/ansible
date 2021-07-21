@@ -6,5 +6,9 @@
     dest=/etc/my.cnf.d/galera.cnf
     owner=root group=root mode=0644
 - include: firewall.yml
+- name: Reload firewall config
+  systemd:
+    name: firewalld
+    state: reloaded
 - include: mysql.yml
 - include: confdb.yml
